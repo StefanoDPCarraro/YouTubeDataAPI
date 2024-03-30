@@ -161,3 +161,6 @@ cython_debug/
 
 # Data Storage
 .json
+
+# Secret Data
+config.py

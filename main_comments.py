@@ -17,8 +17,8 @@ def get_comments(nome, ID):
     import json
     import time
     import requests
+    from config import API_KEY;
 
-    API_KEY = 'AIzaSyCBMsw_5CAkHb0hqHwF3VnTrT3LL4NihfM' #INSIRA SUA API KEY DO YOUTUBE AQUI
     VideoID = ID
 
     params = {
