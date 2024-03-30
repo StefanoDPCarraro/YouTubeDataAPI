@@ -18,7 +18,7 @@ def get_comments(nome, ID):
     import time
     import requests
 
-    API_KEY = '' #INSIRA SUA API KEY DO YOUTUBE AQUI
+    API_KEY = 'AIzaSyCBMsw_5CAkHb0hqHwF3VnTrT3LL4NihfM' #INSIRA SUA API KEY DO YOUTUBE AQUI
     VideoID = ID
 
     params = {
@@ -45,10 +45,19 @@ def get_comments(nome, ID):
             if 'items' in data: 
                 comments = data['items']
                 for comment in comments:
-                    author = comment['snippet']['topLevelComment']['snippet']['authorDisplayName']
-                    text = comment['snippet']['topLevelComment']['snippet']['textDisplay']
-                    print('Comment by', remove_emoji(author), ':', remove_emoji(text), '\n')
-                    jsonData.append({'text': remove_emoji(text).encode('utf-8').decode(), 'author': remove_emoji(author).encode('utf-8').decode()})
+                    top_level_comment = comment['snippet']['topLevelComment']['snippet']
+                    author =  top_level_comment['authorDisplayName']
+                    text = top_level_comment['textDisplay']
+                    like_count = top_level_comment.get('likeCount', 0)
+                    published_at = top_level_comment['publishedAt']
+                    #comment_Id = comment['snippet']['topLevelComment']['id'] USELESS
+                    print('Comment by', remove_emoji(author), ':', remove_emoji(text))
+                    print('Likes:', like_count)
+                    print('Published At:', published_at)
+                    #print('Comment ID:', comment_Id) USELESS
+                    print()
+
+                    jsonData.append({'text': remove_emoji(text).encode('utf-8').decode(), 'author': remove_emoji(author).encode('utf-8').decode(), 'likes': like_count, 'time': published_at})
 
             #SE HOUVER MAIS PÁGINAS DE COMENTÁRIOS, PEGA A PRÓXIMA
             if 'nextPageToken' in data: 
