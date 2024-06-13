@@ -160,7 +160,8 @@ cython_debug/
 #.idea/
 
 # Data Storage
-.json
+*.json
+*.png
 
 # Secret Data
 config.py

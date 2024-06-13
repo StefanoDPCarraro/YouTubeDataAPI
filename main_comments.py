@@ -13,11 +13,13 @@
     Classificação de spam: Uma pontuação indicando a probabilidade de o comentário ser spam.
 '''
 
+import json
+import time
+import requests
+import json_parser
+from config import API_KEY;
+
 def get_comments(nome, ID):
-    import json
-    import time
-    import requests
-    from config import API_KEY;
 
     VideoID = ID
 
@@ -33,8 +35,8 @@ def get_comments(nome, ID):
     #URL PARA REQUISIÇÃO
     url = 'https://www.googleapis.com/youtube/v3/commentThreads'
     jsonData = []
-    total_comments_likes = 0;
-    total_comments = 0;
+    total_comments_likes = 0
+    total_comments = 0
 
     #LOOP PARA PEGAR TODOS OS COMENTÁRIOS
     while True:
@@ -105,6 +107,6 @@ def fix_encoding(text):
 
 
 if __name__ == '__main__':
-    import locale
-    locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
-    get_comments('Video1', 'aGOe24sUYS4') #ID DO VÍDEO QUE SERÁ ANALISADO
+    video_name = 'Video1' #NOME DO ARQUIVO QUE SERÁ ANALISADO
+    get_comments(video_name, 'aGOe24sUYS4') #ID DO VÍDEO QUE SERÁ ANALISADO
+    json_parser.plot_comments(video_name + 'outputComments.json')
