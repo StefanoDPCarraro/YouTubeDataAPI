@@ -1,7 +1,6 @@
 import json
 import pandas as pd
 import matplotlib.pyplot as plt
-from datetime import datetime
 from dateutil.parser import isoparse
 
 def plot_comments(comments_file):
