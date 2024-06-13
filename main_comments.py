@@ -33,6 +33,8 @@ def get_comments(nome, ID):
     #URL PARA REQUISIÇÃO
     url = 'https://www.googleapis.com/youtube/v3/commentThreads'
     jsonData = []
+    total_comments_likes = 0;
+    total_comments = 0;
 
     #LOOP PARA PEGAR TODOS OS COMENTÁRIOS
     while True:
@@ -50,22 +52,37 @@ def get_comments(nome, ID):
                     text = top_level_comment['textDisplay']
                     like_count = top_level_comment.get('likeCount', 0)
                     published_at = top_level_comment['publishedAt']
+                    total_reply_count = comment['snippet']['totalReplyCount']
+                    total_comments_likes += like_count
+                    #moderation_status = top_level_comment.get('moderationStatus') MOST ARE NULL
                     #comment_Id = comment['snippet']['topLevelComment']['id'] USELESS
                     print('Comment by', remove_emoji(author), ':', remove_emoji(text))
                     print('Likes:', like_count)
                     print('Published At:', published_at)
+                    print('Total reply count:', total_reply_count)
+                    #print('Moderation Status:', moderation_status)
                     #print('Comment ID:', comment_Id) USELESS
                     print()
 
-                    jsonData.append({'text': remove_emoji(text).encode('utf-8').decode(), 'author': remove_emoji(author).encode('utf-8').decode(), 'likes': like_count, 'time': published_at})
+                    jsonData.append({'text': remove_emoji(text), 'author': remove_emoji(author), 'likes': like_count, 'time': published_at, 'total_reply_count': total_reply_count})
+                comment_size = len(comments)
+                total_comments += comment_size
 
             #SE HOUVER MAIS PÁGINAS DE COMENTÁRIOS, PEGA A PRÓXIMA
             if 'nextPageToken' in data: 
                 params['pageToken'] = data['nextPageToken']
 
             #SE NÃO HOUVER MAIS PÁGINAS, SALVA O JSON EM UM ARQUIVO
-            else: 
-                with open(nome+'outputComments.json', 'w') as jsonFile:
+            else:
+                video_data = {
+                'total_comments': total_comments,
+                'total_likes': total_comments_likes
+                }
+                jsonData.insert(0, video_data)
+
+                with open(nome+'outputComments.json', 'w', encoding='utf-8') as jsonFile:
+                    print('Total comments: ', total_comments)
+                    print('Total comments likes: ', total_comments_likes)
                     json.dump(jsonData, jsonFile, indent=2, ensure_ascii=False)
                 print('Comments saved in '+nome+' outputComments.json')
                 break
@@ -91,4 +108,3 @@ if __name__ == '__main__':
     import locale
     locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
     get_comments('Video1', 'aGOe24sUYS4') #ID DO VÍDEO QUE SERÁ ANALISADO
-    get_comments('Video2', 'gzwF2BgtW-w') #ID DO VÍDEO QUE SERÁ ANALISADO
