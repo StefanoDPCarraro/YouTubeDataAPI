@@ -38,7 +38,7 @@ touch config.py
 API_KEY = 'your_api_key'
 ```
 
-##### Run
+## 🚀Run
 ```bash
 python3 main_comments.py
 ```
