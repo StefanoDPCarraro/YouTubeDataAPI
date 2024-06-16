@@ -10,7 +10,7 @@ cd YouTubeDataAPI
 
 ##### Setup venv (recommended):
 ```bash
-python -m venv ambiente_youtube
+python3 -m venv ambiente_youtube
 ```
 
 If using windows:
