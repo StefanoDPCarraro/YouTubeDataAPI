@@ -16,6 +16,7 @@
 import json
 import time
 import requests
+from ai import evaluate_sentiment
 import json_parser
 from config import API_KEY;
 
@@ -108,5 +109,7 @@ def fix_encoding(text):
 
 if __name__ == '__main__':
     video_name = 'Video1' #NOME DO ARQUIVO QUE SERÁ ANALISADO
-    get_comments(video_name, 'aGOe24sUYS4') #ID DO VÍDEO QUE SERÁ ANALISADO
+    #get_comments(video_name, 'aGOe24sUYS4') #ID DO VÍDEO QUE SERÁ ANALISADO
     json_parser.plot_comments(video_name + 'outputComments.json')
+    sentiment_dict = evaluate_sentiment(video_name + 'outputComments.json')
+    json.dump(sentiment_dict, open(video_name + 'outputSentiments.json', 'w'), indent=2, ensure_ascii=False)
