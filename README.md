@@ -35,7 +35,7 @@ touch config.py
 
 ##### Set up config.py
 ```
-API_KEY = 'your_api_key'
+GPT_KEY = 'your_api_key'
 ```
 
 ## 🚀Run
